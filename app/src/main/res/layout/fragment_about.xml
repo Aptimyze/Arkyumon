@@ -78,58 +78,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <TextView
-            android:id="@+id/tvMvpBlog"
-            style="@style/TextStyle.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:autoLink="web"
-            android:padding="10dp"
-            android:text="@string/link_mvvm_blog"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_heading" />
-
-        <TextView
-            android:id="@+id/tvMvpRepo"
-            style="@style/TextStyle.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:padding="10dp"
-            android:text="@string/link_mvvm_repo"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMvpBlog" />
-
-        <TextView
-            android:id="@+id/tvMindorksBlog"
-            style="@style/TextStyle.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:padding="10dp"
-            android:text="@string/link_mindorks_blog"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMvpRepo" />
-
-        <TextView
-            android:id="@+id/tvMindorksRepo"
-            style="@style/TextStyle.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:padding="10dp"
-            android:text="@string/link_mindorks_repo"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMindorksBlog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -47,8 +47,6 @@ import android.view.View;
 import com.android.arkyumon.R;
 import com.android.arkyumon.databinding.ActivityMainBinding;
 import com.android.arkyumon.databinding.NavHeaderMainBinding;
-import com.android.arkyumon.ui.feed.FeedActivity;
-import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -105,13 +103,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     public void onFragmentDetached(String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
@@ -123,26 +114,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                     .remove(fragment)
                     .commitNow();
             unlockDrawer();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Drawable drawable = item.getIcon();
-        if (drawable instanceof Animatable) {
-            ((Animatable) drawable).start();
-        }
-        switch (item.getItemId()) {
-            case R.id.action_cut:
-                return true;
-            case R.id.action_copy:
-                return true;
-            case R.id.action_share:
-                return true;
-            case R.id.action_delete:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -228,9 +199,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             return true;
                         case R.id.navItemRateUs:
                             RateUsDialog.newInstance().show(getSupportFragmentManager());
-                            return true;
-                        case R.id.navItemFeed:
-                            //startActivity(FeedActivity.newIntent(MainActivity.this));
                             return true;
                         case R.id.navItemLogout:
                             mMainViewModel.logout();

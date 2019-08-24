@@ -17,10 +17,6 @@
 package com.android.arkyumon.di.builder;
 
 import com.android.arkyumon.ui.about.AboutFragmentProvider;
-import com.android.arkyumon.ui.feed.FeedActivity;
-import com.android.arkyumon.ui.feed.FeedActivityModule;
-import com.android.arkyumon.ui.feed.blogs.BlogFragmentProvider;
-import com.android.arkyumon.ui.feed.opensource.OpenSourceFragmentProvider;
 import com.android.arkyumon.ui.login.LoginActivity;
 import com.android.arkyumon.ui.main.MainActivity;
 import com.android.arkyumon.ui.main.rating.RateUsDialogProvider;
@@ -33,12 +29,6 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ActivityBuilder {
-
-    @ContributesAndroidInjector(modules = {
-            FeedActivityModule.class,
-            BlogFragmentProvider.class,
-            OpenSourceFragmentProvider.class})
-    abstract FeedActivity bindFeedActivity();
 
     @ContributesAndroidInjector
     abstract LoginActivity bindLoginActivity();

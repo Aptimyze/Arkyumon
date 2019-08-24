@@ -46,16 +46,6 @@
             android:name="com.android.arkyumon.ui.main.MainActivity"
             android:launchMode="singleTop" />
 
-        <activity
-            android:name="com.android.arkyumon.ui.feed.FeedActivity"
-            android:launchMode="singleTop"
-            android:parentActivityName="com.android.arkyumon.ui.main.MainActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.arkyumon.ui.main.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

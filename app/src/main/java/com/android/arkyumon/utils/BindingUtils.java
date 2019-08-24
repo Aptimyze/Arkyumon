@@ -22,12 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.android.arkyumon.data.model.api.BlogResponse;
-import com.android.arkyumon.data.model.others.QuestionCardData;
-import com.android.arkyumon.ui.feed.blogs.BlogAdapter;
-import com.android.arkyumon.ui.feed.opensource.OpenSourceAdapter;
-import com.android.arkyumon.ui.feed.opensource.OpenSourceItemViewModel;
-import com.android.arkyumon.ui.main.MainViewModel;
-import com.mindorks.placeholderview.SwipePlaceHolderView;
 import java.util.List;
 
 /**
@@ -40,7 +34,7 @@ public final class BindingUtils {
         // This class is not publicly instantiable
     }
 
-    @BindingAdapter({"adapter"})
+    /*@BindingAdapter({"adapter"})
     public static void addBlogItems(RecyclerView recyclerView, List<BlogResponse.Blog> blogs) {
         BlogAdapter adapter = (BlogAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -56,7 +50,7 @@ public final class BindingUtils {
             adapter.clearItems();
             adapter.addItems(openSourceItems);
         }
-    }
+    }*/
 
     /*@BindingAdapter({"adapter", "action"})
     public static void addQuestionItems(SwipePlaceHolderView mCardsContainerView, List<QuestionCardData> mQuestionList, int mAction) {
