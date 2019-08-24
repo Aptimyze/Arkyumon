@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,12 +27,11 @@ import com.android.arkyumon.ui.feed.blogs.BlogAdapter;
 import com.android.arkyumon.ui.feed.opensource.OpenSourceAdapter;
 import com.android.arkyumon.ui.feed.opensource.OpenSourceItemViewModel;
 import com.android.arkyumon.ui.main.MainViewModel;
-import com.android.arkyumon.ui.main.QuestionCard;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import java.util.List;
 
 /**
- * Created by amitshekhar on 11/07/17.
+ * Created by CodersClan on 11/07/17.
  */
 
 public final class BindingUtils {
@@ -59,7 +58,7 @@ public final class BindingUtils {
         }
     }
 
-    @BindingAdapter({"adapter", "action"})
+    /*@BindingAdapter({"adapter", "action"})
     public static void addQuestionItems(SwipePlaceHolderView mCardsContainerView, List<QuestionCardData> mQuestionList, int mAction) {
         if (mAction == MainViewModel.ACTION_ADD_ALL) {
             if (mQuestionList != null) {
@@ -72,7 +71,7 @@ public final class BindingUtils {
                 ViewAnimationUtils.scaleAnimateView(mCardsContainerView);
             }
         }
-    }
+    }*/
 
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {

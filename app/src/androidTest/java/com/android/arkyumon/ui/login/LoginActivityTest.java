@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,14 +23,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.runner.AndroidJUnit4;
+
 import com.android.arkyumon.R;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Created by amitshekhar on 11/07/17.
+ * Created by CodersClan on 11/07/17.
  */
 
 @RunWith(AndroidJUnit4.class)

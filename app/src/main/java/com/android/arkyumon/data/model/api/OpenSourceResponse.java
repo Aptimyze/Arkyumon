@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by amitshekhar on 07/07/17.
+ * Created by CodersClan on 07/07/17.
  */
 
 public class OpenSourceResponse {

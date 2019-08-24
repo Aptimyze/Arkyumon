@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mDrawer = mActivityMainBinding.drawerView;
         mToolbar = mActivityMainBinding.toolbar;
         mNavigationView = mActivityMainBinding.navigationView;
-        mCardsContainerView = mActivityMainBinding.cardsContainer;
+        //mCardsContainerView = mActivityMainBinding.cardsContainer;
 
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
@@ -209,36 +209,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         String version = getString(R.string.version) + " " + BuildConfig.VERSION_NAME;
         mMainViewModel.updateAppVersion(version);
         mMainViewModel.onNavMenuCreated();
-        setupCardContainerView();
-        subscribeToLiveData();
-    }
-
-    private void setupCardContainerView() {
-        int screenWidth = ScreenUtils.getScreenWidth(this);
-        int screenHeight = ScreenUtils.getScreenHeight(this);
-
-        mCardsContainerView.getBuilder()
-                .setDisplayViewCount(3)
-                .setHeightSwipeDistFactor(10)
-                .setWidthSwipeDistFactor(5)
-                .setSwipeDecor(new SwipeDecor()
-                        .setViewWidth((int) (0.90 * screenWidth))
-                        .setViewHeight((int) (0.75 * screenHeight))
-                        .setPaddingTop(20)
-                        .setSwipeRotationAngle(10)
-                        .setRelativeScale(0.01f));
-
-        mCardsContainerView.addItemRemoveListener(count -> {
-            if (count == 0) {
-                // reload the contents again after 1 sec delay
-                new Handler(getMainLooper()).postDelayed(() -> {
-                    //Reload once all the cards are removed
-                    mMainViewModel.loadQuestionCards();
-                }, 800);
-            } else {
-                mMainViewModel.removeQuestionCard();
-            }
-        });
+        //setupCardContainerView();
+        //subscribeToLiveData();
     }
 
     private void setupNavMenu() {
@@ -258,7 +230,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             RateUsDialog.newInstance().show(getSupportFragmentManager());
                             return true;
                         case R.id.navItemFeed:
-                            startActivity(FeedActivity.newIntent(MainActivity.this));
+                            //startActivity(FeedActivity.newIntent(MainActivity.this));
                             return true;
                         case R.id.navItemLogout:
                             mMainViewModel.logout();
@@ -277,10 +249,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
                 .add(R.id.clRootView, AboutFragment.newInstance(), AboutFragment.TAG)
                 .commit();
-    }
-
-    private void subscribeToLiveData() {
-        mMainViewModel.getQuestionCardData().observe(this, questionCardDatas -> mMainViewModel.setQuestionDataList(questionCardDatas));
     }
 
     private void unlockDrawer() {

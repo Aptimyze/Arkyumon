@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.android.arkyumon.BR;
@@ -35,7 +37,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Created by amitshekhar on 10/07/17.
+ * Created by CodersClan on 10/07/17.
  */
 
 public class BlogFragment extends BaseFragment<FragmentBlogBinding, BlogViewModel>
@@ -103,7 +105,7 @@ public class BlogFragment extends BaseFragment<FragmentBlogBinding, BlogViewMode
     }
 
     private void setUp() {
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mFragmentBlogBinding.blogRecyclerView.setLayoutManager(mLayoutManager);
         mFragmentBlogBinding.blogRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mFragmentBlogBinding.blogRecyclerView.setAdapter(mBlogAdapter);

@@ -1,11 +1,11 @@
 /*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ *  Copyright (C) 2019
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the MIT License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      https://mindorks.com/license/apache-v2
+ *      https://spit.com/license/apache-v2
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,23 +16,17 @@
 
 package com.android.arkyumon.ui.main;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableList;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.arkyumon.data.DataManager;
-import com.android.arkyumon.data.model.others.QuestionCardData;
 import com.android.arkyumon.ui.base.BaseViewModel;
 import com.android.arkyumon.utils.rx.SchedulerProvider;
 
 import java.util.List;
 
 /**
- * Created by amitshekhar on 07/07/17.
+ * Created by CodersClan on 07/07/17.
  */
 
 public class MainViewModel extends BaseViewModel<MainNavigator> {
@@ -42,10 +36,6 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     public static final int NO_ACTION = -1, ACTION_ADD_ALL = 0, ACTION_DELETE_SINGLE = 1;
 
     private final ObservableField<String> appVersion = new ObservableField<>();
-
-    private final MutableLiveData<List<QuestionCardData>> questionCardData;
-
-    private final ObservableList<QuestionCardData> questionDataList = new ObservableArrayList<>();
 
     private final ObservableField<String> userEmail = new ObservableField<>();
 
@@ -57,8 +47,6 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     public MainViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-        questionCardData = new MutableLiveData<>();
-        loadQuestionCards();
     }
 
     public int getAction() {
@@ -67,20 +55,6 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     public ObservableField<String> getAppVersion() {
         return appVersion;
-    }
-
-    public LiveData<List<QuestionCardData>> getQuestionCardData() {
-        return questionCardData;
-    }
-
-    public ObservableList<QuestionCardData> getQuestionDataList() {
-        return questionDataList;
-    }
-
-    public void setQuestionDataList(List<QuestionCardData> questionCardDatas) {
-        action = ACTION_ADD_ALL;
-        questionDataList.clear();
-        questionDataList.addAll(questionCardDatas);
     }
 
     public ObservableField<String> getUserEmail() {
@@ -93,23 +67,6 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     public ObservableField<String> getUserProfilePicUrl() {
         return userProfilePicUrl;
-    }
-
-    public void loadQuestionCards() {
-        getCompositeDisposable().add(getDataManager()
-                .getQuestionCardData()
-                .doOnNext(list -> Log.d(TAG, "loadQuestionCards: " + list.size()))
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(questionList -> {
-                    if (questionList != null) {
-                        Log.d(TAG, "loadQuestionCards: " + questionList.size());
-                        action = ACTION_ADD_ALL;
-                        questionCardData.setValue(questionList);
-                    }
-                }, throwable -> {
-                    Log.d(TAG, "loadQuestionCards: " + throwable);
-                }));
     }
 
     public void logout() {
@@ -142,11 +99,6 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         if (!TextUtils.isEmpty(profilePicUrl)) {
             userProfilePicUrl.set(profilePicUrl);
         }
-    }
-
-    public void removeQuestionCard() {
-        action = ACTION_DELETE_SINGLE;
-        questionCardData.getValue().remove(0);
     }
 
     public void updateAppVersion(String version) {
