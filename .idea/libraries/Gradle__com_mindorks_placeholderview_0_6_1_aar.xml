@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.mindorks:placeholderview:0.6.1@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-placeholderview-0.6.1.aar/2dba8cce07a85cbfaa50b86a2b3d3c73/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-placeholderview-0.6.1.aar/2dba8cce07a85cbfaa50b86a2b3d3c73/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-placeholderview-0.6.1.aar/e4ff1ceddf60f7357dce867252f3da32/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-placeholderview-0.6.1.aar/e4ff1ceddf60f7357dce867252f3da32/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

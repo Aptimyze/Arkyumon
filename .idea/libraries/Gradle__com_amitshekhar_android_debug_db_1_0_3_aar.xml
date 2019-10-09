@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.amitshekhar.android:debug-db:1.0.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/e82dd65be05bb99e05a9da9c3cbf7d36/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/e82dd65be05bb99e05a9da9c3cbf7d36/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/4b866b606d2b91c34281927b52352005/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/4b866b606d2b91c34281927b52352005/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
