@@ -145,8 +145,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometer, sensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometer, 20000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //printValue();
+                new Handler().postDelayed(this, 3000);
+            }
+        }, 3000);
     }
+
 
     @Override
     protected void onResume() {
@@ -239,7 +248,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
         Log.d("onSensorChanged", "X: " + sensorEvent.values[0] + "Y: " + sensorEvent.values[1] + "Z: " + sensorEvent.values[2]);
+
     }
 
     @Override
