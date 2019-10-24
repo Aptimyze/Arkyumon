@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.amitshekhar.android:debug-db:1.0.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/4b866b606d2b91c34281927b52352005/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/4b866b606d2b91c34281927b52352005/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/346997bba5fa6519e97aec3c8fa55a0d/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/jetified-debug-db-1.0.3.aar/346997bba5fa6519e97aec3c8fa55a0d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amitshekhar.android/debug-db/1.0.3/c74bfeed656cee432b6b35f10a615523d82e8321/debug-db-1.0.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.amitshekhar.android/debug-db/1.0.3/c74bfeed656cee432b6b35f10a615523d82e8321/debug-db-1.0.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
