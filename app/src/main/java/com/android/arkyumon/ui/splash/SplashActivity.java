@@ -17,8 +17,12 @@
 package com.android.arkyumon.ui.splash;
 
 import androidx.lifecycle.ViewModelProviders;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.arkyumon.ViewModelProviderFactory;
 import com.android.arkyumon.ui.base.BaseActivity;
@@ -27,6 +31,9 @@ import com.android.arkyumon.R;
 import com.android.arkyumon.databinding.ActivitySplashBinding;
 import com.android.arkyumon.ui.login.LoginActivity;
 import com.android.arkyumon.ui.main.MainActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import javax.inject.Inject;
 
 /**
@@ -34,6 +41,9 @@ import javax.inject.Inject;
  */
 
 public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashViewModel> implements SplashNavigator {
+
+    private static final String TAG = "SplashActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     @Inject
     ViewModelProviderFactory factory;
@@ -75,5 +85,28 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
         super.onCreate(savedInstanceState);
         mSplashViewModel.setNavigator(this);
         mSplashViewModel.startSeeding();
+    }
+
+    public boolean isServicesOk()
+    {
+        Log.d(TAG, "isServicesOk: checking google services version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(SplashActivity.this);
+
+        if(available == ConnectionResult.SUCCESS)
+        {
+            Log.d(TAG, "isServicesOk: Google Play Services is Working");
+            return true;
+        }
+        else if (GoogleApiAvailability.getInstance().isUserResolvableError(available))
+        {
+            Log.d(TAG, "isServicesOk: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this,available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }
+        else
+        {
+            Toast.makeText(this, "You Can't make Map request", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 }
