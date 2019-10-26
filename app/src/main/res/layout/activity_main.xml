@@ -72,6 +72,66 @@
 
                     </com.google.android.material.appbar.AppBarLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/app_bar_height">
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="0dp"
+                            tools:context=".MapsActivity" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:elevation="10dp"
+                            android:background="@drawable/white_border"
+                            android:id="@+id/relLayout1">
+
+                            <ImageView
+                                android:id="@+id/ic_magnify"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/ic_magnify_foreground" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@id/ic_magnify"
+                                android:layout_centerVertical="true"
+                                android:textSize="15sp"
+                                android:textColor="#000"
+                                android:id="@+id/input_search"
+                                android:background="@null"
+                                android:hint="Where Today?"
+                                android:imeOptions="actionDone"
+                                android:maxLines="1"
+                                android:inputType="text"
+                                />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_below="@+id/relLayout1"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/ic_gps"
+                            android:src="@drawable/gps_fix"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
