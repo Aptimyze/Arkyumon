@@ -26,6 +26,7 @@ import android.os.Handler;
 import com.android.arkyumon.BR;
 import com.android.arkyumon.BuildConfig;
 import com.android.arkyumon.ViewModelProviderFactory;
+import com.android.arkyumon.data.model.others.LocationData;
 import com.android.arkyumon.ui.about.AboutFragment;
 import com.android.arkyumon.ui.base.BaseActivity;
 import com.android.arkyumon.ui.login.LoginActivity;
@@ -68,7 +69,9 @@ import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -97,7 +100,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Inject
     ViewModelProviderFactory factory;
     private SensorManager sensorManager;
-    Sensor accelerometer;
+    private Sensor accelerometer;
+    List<LocationData> potholes = new ArrayList<LocationData>();
+    public Queue<Double> window = new LinkedList<>();
+    public int p;
+    private int i = 0;
+    public double sum;
+    private double zacceleration;
+    private MovingAverage movingAverage;
+
     private ActivityMainBinding mActivityMainBinding;
     private SwipePlaceHolderView mCardsContainerView;
     private DrawerLayout mDrawer;
@@ -184,13 +195,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, 20000);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //printValue();
-                new Handler().postDelayed(this, 3000);
-            }
-        }, 3000);
+        movingAverage = new MovingAverage(50);
     }
 
     private void init() {
@@ -422,8 +427,61 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        Log.d("onSensorChanged", "X: " + sensorEvent.values[0] + "Y: " + sensorEvent.values[1] + "Z: " + sensorEvent.values[2]);
+        zacceleration = sensorEvent.values[2];
+        movingAverage.newNum(zacceleration);
+        i++;
+        if(i == 10)
+        {
+            double mavg = movingAverage.getAvg();
+//            Log.d(TAG, "onSensorChanged: Current Acceleration "+String.valueOf(az));
+            Log.d(TAG, "Current Acceleration" + String.valueOf(zacceleration));
+//            Log.d(TAG, "onSensorChanged: MovingAverage "+String.valueOf(mavg));
+            Log.d(TAG, "MovingAverage "+ String.valueOf(mavg));
+//            Log.d(TAG, "onSensorChanged: AbsoluteDifference "+String.valueOf(Math.abs(az - mavg)));
+            double absoluteDifference = Math.abs(zacceleration - mavg);
+            Log.d(TAG, "AbsoluteDifference "+String.valueOf(absoluteDifference));
+            if(absoluteDifference > 7.0)
+            {
+                getDeviceLocationAndAddToList(absoluteDifference);
 
+            }
+            i=0;
+        }
+        //Log.d("onSensorChanged", "X: " + sensorEvent.values[0] + "Y: " + sensorEvent.values[1] + "Z: " + sensorEvent.values[2]);
+
+    }
+
+    private void getDeviceLocationAndAddToList(final double az) {
+        //TODO: Add a local sqlite database to store this stuff instead of list and once the trip is done or after some timeperiod upload it to database.
+        Log.d(TAG, "getDeviceLocation: getting the device's current location");
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            if (mLocationPermissionGranted) {
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: found location!");
+                            Location location1 = (Location) task.getResult();
+                            Log.d(TAG, "onComplete: location " +location1.toString());
+                            Log.d(TAG, "onComplete: acc "+ az);
+                            LocationData locationAcc = new LocationData(location1,az);
+                            potholes.add(locationAcc);
+
+                        } else {
+                            Log.d(TAG, "onComplete: current location is null");
+                            Toast.makeText(MainActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+
+        } catch (SecurityException e) {
+            Log.d(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        }
     }
 
     @Override
