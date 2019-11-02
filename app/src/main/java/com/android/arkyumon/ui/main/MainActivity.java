@@ -20,6 +20,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -33,6 +34,7 @@ import com.android.arkyumon.ui.login.LoginActivity;
 import com.android.arkyumon.ui.main.rating.RateUsDialog;
 import com.android.arkyumon.utils.ScreenUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -303,8 +305,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
+                            Log.d(TAG, "onComplete: found location!" + currentLocation.toString());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
@@ -467,7 +469,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             Location location1 = (Location) task.getResult();
                             Log.d(TAG, "onComplete: location " +location1.toString());
                             Log.d(TAG, "onComplete: acc "+ az);
-                            LocationData locationAcc = new LocationData(location1,az);
+                            LocationData locationAcc = new LocationData(location1, az);
                             potholes.add(locationAcc);
 
                         } else {
@@ -492,4 +494,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private void hideSoftKeyboard() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 }

@@ -117,6 +117,9 @@ dependencies {
     //maps
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    //location tracker library
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
 }
 
 configurations.all {
