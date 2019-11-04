@@ -20,9 +20,11 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import com.android.arkyumon.data.local.db.dao.OptionDao;
+import com.android.arkyumon.data.local.db.dao.PotholesDao;
 import com.android.arkyumon.data.local.db.dao.QuestionDao;
 import com.android.arkyumon.data.local.db.dao.UserDao;
 import com.android.arkyumon.data.model.db.Option;
+import com.android.arkyumon.data.model.db.Potholes;
 import com.android.arkyumon.data.model.db.Question;
 import com.android.arkyumon.data.model.db.User;
 
@@ -30,7 +32,7 @@ import com.android.arkyumon.data.model.db.User;
  * Created by CodersClan on 07/07/17.
  */
 
-@Database(entities = {User.class, Question.class, Option.class}, version = 2)
+@Database(entities = {User.class, Question.class, Option.class, Potholes.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract OptionDao optionDao();
@@ -38,4 +40,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract QuestionDao questionDao();
 
     public abstract UserDao userDao();
+
+    public abstract PotholesDao potholesDao();
 }

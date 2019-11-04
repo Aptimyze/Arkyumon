@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 public class LocationData {
 
     private Location location;
+    private Double acceleration;
 
     public LocationData(Location location, Double acceleration) {
         this.location = location;
@@ -20,5 +21,4 @@ public class LocationData {
 
     }
 
-    private Double acceleration;
 }
