@@ -4,12 +4,18 @@ import android.location.Location;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.Query;
 
 import com.android.arkyumon.data.model.db.Potholes;
+
+import java.util.List;
 
 @Dao
 public interface PotholesDao {
 
     @Insert
     public void addPothole(Potholes potholes);
+
+    @Query("select * from potholes")
+    public List<Potholes> getPotholes();
 }

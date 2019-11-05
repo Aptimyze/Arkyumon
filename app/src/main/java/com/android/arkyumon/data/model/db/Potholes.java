@@ -6,23 +6,45 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "Potholes")
+@Entity (tableName = "potholes")
 public class Potholes {
 
     @NonNull
     @PrimaryKey
     private String timestamp;
 
-    private Location location;
+    private double latitude;
+
+    private double absoluteDifference;
+
+    private double longitude;
 
     private double acceleration;
 
-    public Location getLocation() {
-        return location;
+
+    public double getAbsoluteDifference() {
+        return absoluteDifference;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setAbsoluteDifference(double absoluteDifference) {
+        this.absoluteDifference = absoluteDifference;
+    }
+
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getAcceleration() {

@@ -1,6 +1,7 @@
 package com.android.arkyumon.ui.main;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
@@ -11,8 +12,7 @@ import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,23 +20,18 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.android.arkyumon.BR;
 import com.android.arkyumon.BuildConfig;
 import com.android.arkyumon.ViewModelProviderFactory;
 import com.android.arkyumon.data.local.db.AppDatabase;
 import com.android.arkyumon.data.model.db.Potholes;
-import com.android.arkyumon.data.model.others.LocationData;
 import com.android.arkyumon.ui.about.AboutFragment;
 import com.android.arkyumon.ui.base.BaseActivity;
 import com.android.arkyumon.ui.login.LoginActivity;
 import com.android.arkyumon.ui.main.rating.RateUsDialog;
-import com.android.arkyumon.utils.ScreenUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,8 +52,6 @@ import androidx.room.Room;
 
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -93,6 +86,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     //room
     private static AppDatabase appDatabase;
+    private List<Potholes> printPotholes;
     //constants
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1234;
     private static final float DEFAULT_ZOOM = 18f;
@@ -108,7 +102,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     ViewModelProviderFactory factory;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    //List<LocationData> potholes = new ArrayList<LocationData>();
     public Queue<Double> window = new LinkedList<>();
     public int p;
     private int i = 0;
@@ -117,6 +110,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private double zacceleration;
     private MovingAverage movingAverage;
     private String timestamp;
+    private double latitude;
+    private double longitude;
 
     private ActivityMainBinding mActivityMainBinding;
     private SwipePlaceHolderView mCardsContainerView;
@@ -124,6 +119,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private MainViewModel mMainViewModel;
     private NavigationView mNavigationView;
     private Toolbar mToolbar;
+    private CardView startcard;
+    private CardView endcard;
+    private Context mContext;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -196,17 +194,35 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         mSearchText = mActivityMainBinding.inputSearch;
         mGps = mActivityMainBinding.icGps;
-
+        startcard = mActivityMainBinding.startTripCard;
+        endcard = mActivityMainBinding.endTripCard;
         getLocationPermission();
         init();
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometer, 20000);
-
         movingAverage = new MovingAverage(50);
 
-        appDatabase = Room.databaseBuilder(this, AppDatabase.class, "potholesdb").allowMainThreadQueries().build();
+        startcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sensorManager.registerListener(MainActivity.this, accelerometer, 20000);
+                appDatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "potholesdb").allowMainThreadQueries().build();
+                startcard.setCardBackgroundColor(Color.parseColor("#e3e3e3"));
+            }
+        });
+
+        endcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
+                Log.d(TAG, printPotholes.toString());
+
+                for(Potholes potholes :  printPotholes){
+                    Log.d(TAG, potholes.toString());
+                }
+            }
+        });
     }
 
     private void init() {
@@ -453,7 +469,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             Log.d(TAG, "AbsoluteDifference "+String.valueOf(absoluteDifference));
             if(absoluteDifference > 7.0)
             {
-                getDeviceLocationAndAddToList(absoluteDifference);
+                getDeviceLocationAndAddToList(absoluteDifference, zacceleration);
 
             }
             i=0;
@@ -462,7 +478,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     }
 
-    private void getDeviceLocationAndAddToList(final double az) {
+    private void getDeviceLocationAndAddToList(final double az, final double zacceleration) {
         //TODO: Add a local sqlite database to store this stuff instead of list and once the trip is done or after some timeperiod upload it to database.
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -480,13 +496,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             Log.d(TAG, "onComplete: acc "+ az);
                             timestamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
                             Potholes potholes = new Potholes();
-                            potholes.setLocation(location1);
-                            potholes.setAcceleration(az);
+                            potholes.setAcceleration(zacceleration);
+                            potholes.setAbsoluteDifference(az);
                             potholes.setTimestamp(timestamp);
+                            potholes.setLatitude(location1.getLatitude());
+                            potholes.setLongitude(location1.getLongitude());
                             appDatabase.potholesDao().addPothole(potholes);
+
+                            printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
+
+                            for(Potholes potholes1 : printPotholes){
+                                Log.d("dEBUG", "Latitude " + potholes1.getLatitude());
+                            }
                             Toast.makeText(MainActivity.this, "Pothole detected and added", Toast.LENGTH_SHORT).show();
-                            //LocationData locationAcc = new LocationData(location1, az);
-                            //potholes.add(locationAcc);
 
                         } else {
                             Log.d(TAG, "onComplete: current location is null");

@@ -18,8 +18,6 @@ package com.android.arkyumon.data.local.db;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
 import com.android.arkyumon.data.local.db.dao.OptionDao;
 import com.android.arkyumon.data.local.db.dao.PotholesDao;
@@ -29,12 +27,11 @@ import com.android.arkyumon.data.model.db.Option;
 import com.android.arkyumon.data.model.db.Potholes;
 import com.android.arkyumon.data.model.db.Question;
 import com.android.arkyumon.data.model.db.User;
-import com.android.arkyumon.utils.LocationConverter;
 
 /**
  * Created by CodersClan on 07/07/17.
  */
-@TypeConverters(LocationConverter.class)
+
 @Database(entities = {User.class, Question.class, Option.class, Potholes.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
