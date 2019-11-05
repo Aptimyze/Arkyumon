@@ -27,6 +27,8 @@ import android.os.Handler;
 import com.android.arkyumon.BR;
 import com.android.arkyumon.BuildConfig;
 import com.android.arkyumon.ViewModelProviderFactory;
+import com.android.arkyumon.data.local.db.AppDatabase;
+import com.android.arkyumon.data.model.db.Potholes;
 import com.android.arkyumon.data.model.others.LocationData;
 import com.android.arkyumon.ui.about.AboutFragment;
 import com.android.arkyumon.ui.base.BaseActivity;
@@ -51,6 +53,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -74,6 +77,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -87,7 +91,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
+    //room
+    private static AppDatabase appDatabase;
     //constants
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1234;
     private static final float DEFAULT_ZOOM = 18f;
@@ -103,13 +108,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     ViewModelProviderFactory factory;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    List<LocationData> potholes = new ArrayList<LocationData>();
+    //List<LocationData> potholes = new ArrayList<LocationData>();
     public Queue<Double> window = new LinkedList<>();
     public int p;
     private int i = 0;
+    private int j = 0;
     public double sum;
     private double zacceleration;
     private MovingAverage movingAverage;
+    private String timestamp;
 
     private ActivityMainBinding mActivityMainBinding;
     private SwipePlaceHolderView mCardsContainerView;
@@ -198,6 +205,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         sensorManager.registerListener(this, accelerometer, 20000);
 
         movingAverage = new MovingAverage(50);
+
+        appDatabase = Room.databaseBuilder(this, AppDatabase.class, "potholesdb").allowMainThreadQueries().build();
     }
 
     private void init() {
@@ -469,8 +478,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             Location location1 = (Location) task.getResult();
                             Log.d(TAG, "onComplete: location " +location1.toString());
                             Log.d(TAG, "onComplete: acc "+ az);
-                            LocationData locationAcc = new LocationData(location1, az);
-                            potholes.add(locationAcc);
+                            timestamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+                            Potholes potholes = new Potholes();
+                            potholes.setLocation(location1);
+                            potholes.setAcceleration(az);
+                            potholes.setTimestamp(timestamp);
+                            appDatabase.potholesDao().addPothole(potholes);
+                            Toast.makeText(MainActivity.this, "Pothole detected and added", Toast.LENGTH_SHORT).show();
+                            //LocationData locationAcc = new LocationData(location1, az);
+                            //potholes.add(locationAcc);
 
                         } else {
                             Log.d(TAG, "onComplete: current location is null");

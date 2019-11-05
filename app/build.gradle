@@ -66,6 +66,9 @@ dependencies {
     // network
     implementation "com.amitshekhar.android:rx2-android-networking:$rootProject.rx2FastAndroidNetworking"
 
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+
     // database
     implementation "androidx.room:room-rxjava2:$rootProject.roomDatabaseVersion"
     implementation 'com.google.firebase:firebase-database:16.0.4'
