@@ -3,6 +3,7 @@ package com.android.arkyumon.data.local.db.dao;
 import android.location.Location;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -18,4 +19,7 @@ public interface PotholesDao {
 
     @Query("select * from potholes")
     public List<Potholes> getPotholes();
+
+    @Delete
+    public void deletePotholes(Potholes pothole);
 }

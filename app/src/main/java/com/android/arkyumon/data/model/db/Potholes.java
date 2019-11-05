@@ -21,6 +21,11 @@ public class Potholes {
 
     private double acceleration;
 
+    public Potholes() {
+
+    }
+
+
 
     public double getAbsoluteDifference() {
         return absoluteDifference;

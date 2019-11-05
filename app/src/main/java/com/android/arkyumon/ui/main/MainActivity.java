@@ -63,6 +63,8 @@ import android.widget.Toast;
 import com.android.arkyumon.R;
 import com.android.arkyumon.databinding.ActivityMainBinding;
 import com.android.arkyumon.databinding.NavHeaderMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 import java.io.IOException;
@@ -110,8 +112,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private double zacceleration;
     private MovingAverage movingAverage;
     private String timestamp;
-    private double latitude;
-    private double longitude;
+
+    //Firebase
+    DatabaseReference databasePotholes;
 
     private ActivityMainBinding mActivityMainBinding;
     private SwipePlaceHolderView mCardsContainerView;
@@ -216,10 +219,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             @Override
             public void onClick(View view) {
                 printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
-                Log.d(TAG, printPotholes.toString());
+
+                databasePotholes = FirebaseDatabase.getInstance().getReference("potholes");
+                databasePotholes.push().setValue(printPotholes);
 
                 for(Potholes potholes :  printPotholes){
-                    Log.d(TAG, potholes.toString());
+                    appDatabase.potholesDao().deletePotholes(potholes);
                 }
             }
         });
