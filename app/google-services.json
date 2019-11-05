@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "413765221737",
+    "firebase_url": "https://arkyumon.firebaseio.com",
+    "project_id": "arkyumon",
+    "storage_bucket": "arkyumon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413765221737:android:4ae0c9b2730a1fcd5151f8",
+        "android_client_info": {
+          "package_name": "com.android.arkyumon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413765221737-nmiefupdo9rms18mdf7ugrv0ig9dpdtk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.arkyumon",
+            "certificate_hash": "1ef25eb32352f96279a67f2245a60cf086594519"
+          }
+        },
+        {
+          "client_id": "413765221737-omlqsrqgge1q5js5ti5q918fdpkioav0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYOS3sgCg46lEj4IBQLmdl88zABImO4Co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413765221737-omlqsrqgge1q5js5ti5q918fdpkioav0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
