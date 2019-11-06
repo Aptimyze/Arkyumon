@@ -132,7 +132,6 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, IMG_REQUEST);
-        Log.d(TAG, "SElect image executed");
     }
 
     @Override
