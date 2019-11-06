@@ -33,4 +33,12 @@ public class AboutViewModel extends BaseViewModel<AboutNavigator> {
     public void onNavBackClick() {
         getNavigator().goBack();
     }
+
+    public void onChooseClick() {
+        getNavigator().selectImage();
+    }
+
+    public void onSubmitClick() {
+        getNavigator().uploadImage();
+    }
 }

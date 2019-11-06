@@ -23,4 +23,9 @@ package com.android.arkyumon.ui.about;
 public interface AboutNavigator {
 
     void goBack();
+
+    void selectImage();
+
+    void uploadImage();
+
 }

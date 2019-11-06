@@ -30,7 +30,7 @@
     <string name="close_drawer">Drawer Close</string>
 
     <!--Drawer Menus-->
-    <string name="about">About</string>
+    <string name="about">Complain</string>
     <string name="logout">Logout</string>
     <string name="feed">My Feed</string>
 
