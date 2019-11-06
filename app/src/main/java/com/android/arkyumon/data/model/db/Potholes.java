@@ -9,6 +9,25 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "potholes")
 public class Potholes {
 
+    @Override
+    public String toString() {
+        return "Potholes{" +
+                "timestamp='" + timestamp + '\'' +
+                ", latitude=" + latitude +
+                ", absoluteDifference=" + absoluteDifference +
+                ", longitude=" + longitude +
+                ", acceleration=" + acceleration +
+                '}';
+    }
+
+    public Potholes(@NonNull String timestamp, double latitude, double absoluteDifference, double longitude, double acceleration) {
+        this.timestamp = timestamp;
+        this.latitude = latitude;
+        this.absoluteDifference = absoluteDifference;
+        this.longitude = longitude;
+        this.acceleration = acceleration;
+    }
+
     @NonNull
     @PrimaryKey
     private String timestamp;
@@ -24,8 +43,6 @@ public class Potholes {
     public Potholes() {
 
     }
-
-
 
     public double getAbsoluteDifference() {
         return absoluteDifference;

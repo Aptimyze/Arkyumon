@@ -40,6 +40,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
@@ -65,6 +67,8 @@ import com.android.arkyumon.databinding.ActivityMainBinding;
 import com.android.arkyumon.databinding.NavHeaderMainBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 import java.io.IOException;
@@ -220,8 +224,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             public void onClick(View view) {
                 printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
 
-                databasePotholes = FirebaseDatabase.getInstance().getReference("potholes");
-                databasePotholes.push().setValue(printPotholes);
+                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                for(Potholes potholes :  printPotholes){
+                    firestore.collection("potholes")
+                            .add(potholes)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(MainActivity.this,
+                                            "Event document has been added",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding event document", e);
+                                    Toast.makeText(MainActivity.this,
+                                            "Event document could not be added",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
 
                 for(Potholes potholes :  printPotholes){
                     appDatabase.potholesDao().deletePotholes(potholes);
@@ -484,7 +508,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     private void getDeviceLocationAndAddToList(final double az, final double zacceleration) {
-        //TODO: Add a local sqlite database to store this stuff instead of list and once the trip is done or after some timeperiod upload it to database.
+
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
