@@ -1,15 +1,21 @@
 package com.android.arkyumon.data.remote;
 
-import com.android.arkyumon.data.model.api.PotholeComplain;
-
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ApiInterface {
 
-    @FormUrlEncoded
-    @POST("predict")
-    Call<PotholeComplain> uploadImage(@Field("message") String complain, @Field("image") String image, @Field("latitude") double latitude,  @Field("longitude") double longitude);
+    @Multipart
+    @POST("endpoint")
+    Call<ResponseBody> uploadImage(
+            @Part("description") RequestBody desciption,
+            @Part MultipartBody.Part   photo,
+            @Part("latitude") float latitude,
+            @Part("longitude") float longitude
+            );
 }

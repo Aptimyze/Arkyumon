@@ -17,10 +17,14 @@
 package com.android.arkyumon.ui.about;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -46,6 +50,8 @@ import com.android.arkyumon.ui.base.BaseFragment;
 import com.android.arkyumon.BR;
 import com.android.arkyumon.R;
 import com.android.arkyumon.databinding.FragmentAboutBinding;
+import com.android.arkyumon.ui.main.MainActivity;
+import com.android.arkyumon.utils.FileUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,6 +59,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.inject.Inject;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -79,6 +96,8 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
     private float longitude;
     private ScrollView scrollView;
     private ExifInterface exifInterface;
+    private final static int MY_PERMISSION_REQUEST= 100;
+    private Uri path;
 
 
     public static AboutFragment newInstance() {
@@ -113,10 +132,8 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
-        //binding = getViewDataBinding();
-        //image = (ImageView)findViewById(R.id.targetimage);
-        //submit = binding.submit;
         mAboutViewModel.setNavigator(this);
+
     }
 
     @Override
@@ -140,7 +157,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == IMG_REQUEST && resultCode==RESULT_OK && data!=null){
 
-            Uri path = data.getData();
+            path = data.getData();
             try {
                 bitmap = BitmapFactory.decodeStream(context.getContentResolver()
                         .openInputStream(path));
@@ -235,33 +252,37 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
         }
     }
 
-    public void uploadImage() {
-        String image = ImageToString();
-        String complain = binding.complainText.toString();
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        /*Call<PotholeComplain>  call = apiInterface.uploadImage(complain, image, );
 
-        call.enqueue(new retrofit2.Callback<PotholeComplain>() {
+    public void uploadImage(){
+        RequestBody desciption = RequestBody.create(MultipartBody.FORM, binding.complainText.getText().toString() );
+        File originalFile = FileUtils.getFile(context, path);
+
+        RequestBody filepart = RequestBody.create(
+                MediaType.parse(context.getContentResolver().getType(path)), originalFile);
+
+        MultipartBody.Part file = MultipartBody.Part.createFormData("photo", originalFile.getName(), filepart);
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create());
+
+
+        Retrofit retrofit = builder.build();
+
+        ApiInterface client =  retrofit.create(ApiInterface.class);
+
+        Call<ResponseBody> call = client.uploadImage(desciption, file, latitude, longitude );
+        call.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<PotholeComplain> call, Response<PotholeComplain> response) {
-                PotholeComplain potholeComplain = response.body();
-                Toast.makeText(getContext(), "Server Response" + potholeComplain.getResponse(), Toast.LENGTH_SHORT);
-                binding.potholeImage.setVisibility(View.VISIBLE);
-                binding.submit.setEnabled(false);
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(context, "Yeah", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<PotholeComplain> call, Throwable t) {
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
             }
-        });*/
-    }
-
-    private String ImageToString() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imgByte = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgByte, Base64.DEFAULT);
+        });
     }
 
 }

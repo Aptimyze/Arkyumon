@@ -137,6 +137,9 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.exifinterface:exifinterface:1.1.0-rc01'
 
+    //retrofit
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+
 }
 
 configurations.all {
