@@ -80,6 +80,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
     private ScrollView scrollView;
     private ExifInterface exifInterface;
 
+
     public static AboutFragment newInstance() {
         Bundle args = new Bundle();
         AboutFragment fragment = new AboutFragment();

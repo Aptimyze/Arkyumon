@@ -20,6 +20,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 
 import com.android.arkyumon.BR;
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -93,6 +95,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     //room
     private static AppDatabase appDatabase;
     private List<Potholes> printPotholes;
+    private Polyline gpsTrack;
+    private LatLng lastKnownLatLng;
     //constants
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1234;
     private static final float DEFAULT_ZOOM = 18f;
@@ -252,6 +256,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 }
             }
         });
+    }
+
+
+    LocationListener locationListenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            lastKnownLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            updateTrack();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+    private void updateTrack() {
+        List<LatLng> points = gpsTrack.getPoints();
+        points.add(lastKnownLatLng);
+        gpsTrack.setPoints(points);
     }
 
     private void init() {
@@ -530,6 +564,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             potholes.setTimestamp(timestamp);
                             potholes.setLatitude(location1.getLatitude());
                             potholes.setLongitude(location1.getLongitude());
+                            LatLng mCurrentPlace= new LatLng(location1.getLatitude(),location1.getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(mCurrentPlace));
                             appDatabase.potholesDao().addPothole(potholes);
 
                             printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
