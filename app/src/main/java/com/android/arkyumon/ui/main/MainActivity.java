@@ -564,9 +564,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             potholes.setTimestamp(timestamp);
                             potholes.setLatitude(location1.getLatitude());
                             potholes.setLongitude(location1.getLongitude());
+                            appDatabase.potholesDao().addPothole(potholes);
+
                             LatLng mCurrentPlace= new LatLng(location1.getLatitude(),location1.getLongitude());
                             mMap.addMarker(new MarkerOptions().position(mCurrentPlace));
-                            appDatabase.potholesDao().addPothole(potholes);
+
 
                             printPotholes = MainActivity.appDatabase.potholesDao().getPotholes();
 
