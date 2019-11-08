@@ -40,5 +40,6 @@ public class AboutViewModel extends BaseViewModel<AboutNavigator> {
 
     public void onSubmitClick() {
         getNavigator().uploadImage();
+        getNavigator().goBack();
     }
 }

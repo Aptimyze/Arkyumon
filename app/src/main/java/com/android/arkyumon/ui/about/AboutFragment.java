@@ -50,6 +50,7 @@ import com.android.arkyumon.ui.base.BaseFragment;
 import com.android.arkyumon.BR;
 import com.android.arkyumon.R;
 import com.android.arkyumon.databinding.FragmentAboutBinding;
+import com.android.arkyumon.ui.login.LoginActivity;
 import com.android.arkyumon.ui.main.MainActivity;
 import com.android.arkyumon.utils.FileUtils;
 
@@ -189,7 +190,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
                     exif += "Exif tags are not available!";
                 }
                 Log.d("LatLong", exif);
-                Toast.makeText(getActivity(), exif, Toast.LENGTH_SHORT ).show();
+                Toast.makeText(getActivity(), "Image Uploaded", Toast.LENGTH_SHORT ).show();
 
             } catch (IOException e) {
                 // Handle any errors
@@ -262,7 +263,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
 
         MultipartBody.Part file = MultipartBody.Part.createFormData("photo", originalFile.getName(), filepart);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl("https://d39dc7e4.ngrok.io/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -284,5 +285,6 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
             }
         });
     }
+
 
 }

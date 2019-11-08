@@ -75,6 +75,7 @@ import com.mindorks.placeholderview.SwipePlaceHolderView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -235,9 +236,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(MainActivity.this,
-                                            "Event document has been added",
-                                            Toast.LENGTH_SHORT).show();
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -250,6 +249,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                                 }
                             });
                 }
+
+                Toast.makeText(MainActivity.this,
+                        "Event document has been added",
+                        Toast.LENGTH_SHORT).show();
 
                 for(Potholes potholes :  printPotholes){
                     appDatabase.potholesDao().deletePotholes(potholes);
@@ -557,7 +560,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             Location location1 = (Location) task.getResult();
                             Log.d(TAG, "onComplete: location " +location1.toString());
                             Log.d(TAG, "onComplete: acc "+ az);
-                            timestamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+                            Calendar calendar = Calendar.getInstance();
+                            long timeMilli2 = calendar.getTimeInMillis();
+                            timestamp = String.valueOf(timeMilli2);
+                            //timestamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
                             Potholes potholes = new Potholes();
                             potholes.setAcceleration(zacceleration);
                             potholes.setAbsoluteDifference(az);
@@ -586,7 +592,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }
 
 
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             Log.d(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }

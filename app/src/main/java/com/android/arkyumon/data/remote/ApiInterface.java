@@ -11,7 +11,7 @@ import retrofit2.http.Part;
 public interface ApiInterface {
 
     @Multipart
-    @POST("endpoint")
+    @POST("predict")
     Call<ResponseBody> uploadImage(
             @Part("description") RequestBody desciption,
             @Part MultipartBody.Part   photo,
